@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid g-0" style="height: 100vh; width: 100%;">
+    <div class="row g-0" style="height: 100%; width: 100%">
+      <div class="col-9">
+        {% if filename %}
+          <embed
+              src="{{url_for('static', filename=filename)}}"
+              type="application/pdf"
+              frameBorder="0"
+              scrolling="auto"
+              height="100%"
+              width="100%"
+          ></embed>
+        {% endif %}  
+      </div>
+      <div class="col p-5 text-center bg-dark">
+          <!-- Button trigger modal -->
+          {% for term in terms %}
+          <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  {{term.upper()}}
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                {% for i in range(locations.__len__()) %}
+                {% for key, value in locations[i].items() %}
+                {% if key.lower() == term.lower() %}
+                {% if locations[i][term]['pages'].__len__() > 0 %}
+                  <ul class="list-group">
+                    {% for j in range(locations[i][term]['pages'].__len__()) %}
+                    <li class="list-group-item d-flex justify-content-start">Page {{locations[i][term]['pages'][j]}} on line {{locations[i][term]['line_number'][j]}}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endfor %}  
+                </div>
+              </div>
+            </div>
+          </div> 
+        {% endfor %}
+        <br/>
+        <hr>
+          <form action=""
+            enctype="multipart/form-data"
+            method="post"
+            autocomplete="off"
+            charset="utf-8"
+          >
+            <button type="button submit" class="btn btn-info btn-lg glow-button btn-light" style="margin-top: 17rem; --box-shadow-color: #f8f9fa; box-shadow: 0 0 30px var(--box-shadow-color);">
+              Download files
+            </button> 
+          </form>  
+      </div>
+    </div>
+</div>
+{% endblock %}
+

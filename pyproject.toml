@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "redactor"
+version = "0.1.0"
+description = ""
+authors = ["Kobiri <kobiris1998@gmail.com>"]
+readme = "README.md"
+packages = [{include = "redactor"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+flask = "^2.2.2"
+fpdf = "^1.7.2"
+aspose-words = "^22.11.0"
+pymupdf = "1.18.9"
+uvicorn = "^0.20.0"
+flaskwebgui = "^1.0.3"
+pyinstaller = "^5.6.2"
+cx-freeze = "^6.13.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

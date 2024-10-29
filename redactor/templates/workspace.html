@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid g-0" style="height: 100vh; width: 100%;">
+    <div class="row g-0" style="height: 100%; width: 100%">
+      <div class="col-10">
+        {% if filename %}
+          <embed
+              src="{{url_for('static', filename=filename)}}"
+              type="application/pdf"
+              frameBorder="0"
+              scrolling="auto"
+              height="100%"
+              width="100%"
+          ></embed>
+        {% endif %}  
+      </div>
+      <div class="col p-5 text-center bg-dark">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-info btn-lg glow-button btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="margin-top: 17rem; --box-shadow-color: #f8f9fa; box-shadow: 0 0 30px var(--box-shadow-color);">
+              Search file
+          </button>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title fs-6" id="staticBackdropLabel">Enter search terms (seperate multiple terms with a comma)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form 
+                    action=""
+                    enctype="multipart/form-data"
+                    method="post"
+                    autocomplete="off"
+                    charset="utf-8"
+                  >
+                  <div class="modal-body">
+                    <textarea type="textarea" class="form-control" id="searchTerm" name="searchterms" rows="3"></textarea>
+                  </div>
+                  <div class="modal-footer d-flex justify-content-end">
+                    <button type="button submit" class="btn btn-dark">Search</button>
+                  </div>
+                  </form> 
+                  <label for="recentTermsList" class="form-label mt-2 fs-5 d-flex justify-content-start ps-2">Select from recent searches</label>
+                  <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-start ps-2" id="term1">
+                      <input class="form-check-input me-1" type="checkbox" name="term" value="Most recent term" aria-label="...">
+                      Most recent term
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start ps-2">
+                      <input class="form-check-input me-1" type="checkbox" name="term" value="Next term" aria-label="..." id="term2">
+                      Next term
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start ps-2">
+                      <input class="form-check-input me-1" type="checkbox" name="term" value="Another term" aria-label="..." id="term3">
+                      Another term
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start ps-2">
+                      <input class="form-check-input me-1" type="checkbox" name="term" value="last but one term" aria-label="..." id="term4">
+                      last but one term
+                    </li>
+                    <li class="list-group-item d-flex justify-content-start ps-2">
+                      <input class="form-check-input me-1" type="checkbox" name="term" value="Final term" aria-label="..." id="term5">
+                      Final term
+                    </li>
+                  </ul>    
+                  <div class="modal-footer d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary" id="add">Add Terms</button>
+                  </div>
+                </div>
+              </div>
+            </div> 
+      </div>
+    </div>
+</div>
+<script>
+  let url = document.URL;
+  console.log(url)
+  const btn = document.querySelector('#add');
+  btn.addEventListener('click', (event) => {
+      // Get all checkboxes that have been checked
+      let checkboxes = document.querySelectorAll('input[name="term"]:checked');
+      // Initialize empty variable to take all the search terms
+      let searchTerms = [];
+      // Get all typed text in search box
+      textInSearchBox = document.getElementById('searchTerm').value;
+      // Split the text into its individual components
+      textInSearchBox = textInSearchBox.split(",");
+      // Remove all empty spaces in search
+      textInSearchBox.forEach((text) => {
+        if (text != ''){
+          // Append text in searchbox to list of searchterms
+          searchTerms.push(text);
+        }
+      })
+      // Identify all checked items and add them to the list of search terms
+      checkboxes.forEach((checkbox) => {
+        searchTerms.push(checkbox.value);
+      });
+      // Replace the values in the searchbox with the search terms list
+      document.getElementById('searchTerm').value = searchTerms;
+      console.log(searchTerms);
+      console.log(typeof(searchTerms))
+  });    
+</script>
+{% endblock %}
+
